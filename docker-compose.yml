@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: ts-app
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/your-db-name  # MongoDB URI for app to connect
+    ports:
+      - "8080:8080"  # Expose your app on port 8080
+    depends_on:
+      - mongo  # Ensure MongoDB is up before starting the app
+
+  mongo:
+    image: mongo:latest  # Use the official MongoDB image
+    container_name: mongo
+    ports:
+      - "27017:27017"  # Expose MongoDB port
+    volumes:
+      - mongo-data:/data/db  # Persistent storage for MongoDB data
+
+volumes:
+  mongo-data:  # Volume for MongoDB data persistence
